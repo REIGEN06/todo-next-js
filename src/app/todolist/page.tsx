@@ -7,6 +7,7 @@ type Task = {
 	title: string;
 };
 export default function ToDoList() {
+	const [searchInput, setsearchInput] = useState<string>('');
 	const [tasks, setTasks] = useState<Task[]>([]);
 	const [input, setInput] = useState<string>('TestTask');
 
@@ -32,6 +33,10 @@ export default function ToDoList() {
 		});
 	};
 
+	const filteredTasks = tasks?.filter((task) => {
+		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
+	});
+
 	return (
 		<div>
 			<Link href="/">
@@ -40,11 +45,21 @@ export default function ToDoList() {
 
 			<div>ToDo List Page</div>
 
-			<input onChange={(e) => setInput(e.target.value)} value={input} />
+			<div>
+				<input
+					placeholder="Поиск таска по названию"
+					onChange={(e) => setsearchInput(e.target.value)}
+				/>
+			</div>
+
+			<input
+				placeholder="Введите название таска"
+				onChange={(e) => setInput(e.target.value)}
+			/>
 
 			<button onClick={() => addTask()}>Добавить</button>
 
-			{tasks?.map((task: Task, id: number) => {
+			{filteredTasks?.map((task: Task, id: number) => {
 				return (
 					<TaskComponent
 						key={task.id}
