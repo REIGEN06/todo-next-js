@@ -65,7 +65,6 @@ const TaskComponent = (props: TaskComponentProps) => {
 	const editTask = () => {
 		setEdit(!edit);
 	};
-	console.log(props);
 
 	return (
 		<div>
