@@ -1,21 +1,31 @@
 'use client';
-import Link from 'next/link';
-import { useState } from 'react';
+import {
+	Autocomplete,
+	Container,
+	Grid,
+	IconButton,
+	InputAdornment,
+	List,
+	ListSubheader,
+	TextField,
+	useTheme,
+} from '@mui/material';
+import { SyntheticEvent, useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import TaskComponent from './components/TaskComponents';
+import { Task } from './const/const';
 
-type Task = {
-	id: string;
-	title: string;
-};
-export default function ToDoList() {
+const ToDoList = () => {
 	const [searchInput, setsearchInput] = useState<string>('');
 	const [tasks, setTasks] = useState<Task[]>([]);
-	const [input, setInput] = useState<string>('TestTask');
+	const [input, setInput] = useState<string>('');
+	const theme = useTheme();
 
 	const addTask = () => {
+		if (input.length === 0) return;
 		const uuid = crypto.randomUUID();
 		setTasks([...tasks, { id: uuid, title: input }]);
 	};
-
 	const deleteTask = (id: number) => {
 		setTasks((currentTasks) => {
 			const newTasks = currentTasks.slice();
@@ -23,7 +33,6 @@ export default function ToDoList() {
 			return newTasks;
 		});
 	};
-
 	const editTask = (id: number, newTitle: string) => {
 		const uuid = crypto.randomUUID();
 		setTasks((currentTasks) => {
@@ -33,77 +42,105 @@ export default function ToDoList() {
 		});
 	};
 
+	const onSearchBarChange = (
+		event: SyntheticEvent<Element, Event>,
+		value: string | null
+	) => {
+		console.log(event.target);
+
+		value && setsearchInput(value);
+	};
+	const onAddTask = () => {
+		addTask();
+		setInput('');
+	};
+
 	const filteredTasks = tasks?.filter((task) => {
 		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
 	});
 
 	return (
-		<div>
-			<Link href="/">
-				<button>Go Home</button>
-			</Link>
+		<Container
+			maxWidth="md"
+			sx={{
+				p: 3,
+				marginTop: 3,
+				border: `1px solid ${theme.palette.border.main}`,
+				borderRadius: '10px',
+				backgroundColor: `${theme.palette.BGcolors.main}`,
+			}}
+		>
+			<List subheader={<li />}>
+				<ListSubheader sx={{ p: 1 }}>
+					<Grid
+						container
+						spacing={2}
+						sx={{ display: 'flex', alignItems: 'center' }}
+					>
+						<Grid item xs={7}>
+							<TextField
+								label="Добавить таск"
+								variant="outlined"
+								multiline
+								fullWidth
+								value={input}
+								onChange={(e) => setInput(e.target.value)}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<IconButton
+												sx={{ padding: '0px' }}
+												onClick={() => onAddTask()}
+											>
+												<AddIcon />
+											</IconButton>
+										</InputAdornment>
+									),
+								}}
+							/>
+						</Grid>
+						<Grid item xs={5}>
+							<Autocomplete
+								disablePortal
+								options={tasks.map((option) => option.title)}
+								onChange={onSearchBarChange}
+								sx={{
+									margin: '0px 0px 8px',
+								}}
+								fullWidth
+								renderInput={(params) => (
+									<TextField
+										margin="normal"
+										{...params}
+										label="Поиск по списку"
+									/>
+								)}
+								renderOption={(props, option) => {
+									return (
+										<li {...props} key={props.id}>
+											{option}
+										</li>
+									);
+								}}
+							/>
+						</Grid>
+					</Grid>
+				</ListSubheader>
 
-			<div>ToDo List Page</div>
-
-			<div>
-				<input
-					placeholder="Поиск таска по названию"
-					onChange={(e) => setsearchInput(e.target.value)}
-				/>
-			</div>
-
-			<input
-				placeholder="Введите название таска"
-				onChange={(e) => setInput(e.target.value)}
-			/>
-
-			<button onClick={() => addTask()}>Добавить</button>
-
-			{filteredTasks?.map((task: Task, id: number) => {
-				return (
-					<TaskComponent
-						key={task.id}
-						data={task}
-						idInArray={id}
-						onDelete={() => deleteTask(id)}
-						onEdit={editTask}
-					/>
-				);
-			})}
-		</div>
-	);
-}
-
-const TaskComponent = (props: TaskComponentProps) => {
-	const [input, setInput] = useState<string>(props.data.title);
-	const [edit, setEdit] = useState<boolean>(false);
-	const editTask = () => {
-		setEdit(!edit);
-	};
-
-	return (
-		<div>
-			{edit ? (
-				<div>
-					<input onChange={(e) => setInput(e.target.value)} value={input} />
-					<button onClick={() => props.onEdit(props.idInArray, input)}>
-						Ok
-					</button>
-				</div>
-			) : (
-				<div>
-					{props.data.title}
-					<button onClick={props.onDelete}>Del</button>
-					<button onClick={() => editTask()}>Edit</button>
-				</div>
-			)}
-		</div>
+				{filteredTasks?.map((task: Task, id: number) => {
+					return (
+						<TaskComponent
+							key={task.id}
+							data={task}
+							idInArray={id}
+							onDelete={() => deleteTask(id)}
+							onEdit={editTask}
+						/>
+					);
+				})}
+			</List>
+		</Container>
 	);
 };
 
-type TaskComponentProps = {
-	data: Task;
-	idInArray: number;
-	onDelete: () => void;
-	onEdit: (id: number, newTitle: string) => void;
-};
+export default ToDoList;
