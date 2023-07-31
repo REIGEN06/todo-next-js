@@ -46,16 +46,14 @@ const ToDoList = () => {
 		event: SyntheticEvent<Element, Event>,
 		value: string | null
 	) => {
-		console.log(event.target);
-
-		value && setsearchInput(value);
+		setsearchInput(value || '');
 	};
 	const onAddTask = () => {
 		addTask();
 		setInput('');
 	};
 
-	const filteredTasks = tasks?.filter((task) => {
+	let filteredTasks = tasks?.filter((task) => {
 		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
 	});
 
