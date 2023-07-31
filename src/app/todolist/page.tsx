@@ -77,20 +77,17 @@ const ToDoList = () => {
 					>
 						<Grid item xs={7}>
 							<TextField
+								type="text"
 								label="Добавить таск"
 								variant="outlined"
 								fullWidth
 								autoFocus
-								inputRef={(input) => {
-									if (input != null) {
-										input.focus();
-									}
-								}}
 								onKeyDown={(e) => {
 									if (e.key == 'Enter') onAddTask();
 								}}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
+								inputProps={{ maxLength: 100 }}
 								InputProps={{
 									endAdornment: (
 										<InputAdornment position="end">
@@ -133,17 +130,19 @@ const ToDoList = () => {
 					</Grid>
 				</ListSubheader>
 
-				{filteredTasks?.reverse().map((task: Task, id: number) => {
-					return (
-						<TaskComponent
-							key={task.id}
-							data={task}
-							idInArray={id}
-							onDelete={() => deleteTask(id)}
-							onEdit={editTask}
-						/>
-					);
-				})}
+				{filteredTasks
+					?.map((task: Task, id: number) => {
+						return (
+							<TaskComponent
+								key={task.id}
+								data={task}
+								idInArray={id}
+								onDelete={() => deleteTask(id)}
+								onEdit={editTask}
+							/>
+						);
+					})
+					.reverse()}
 			</List>
 		</Container>
 	);
