@@ -14,6 +14,7 @@ import { SyntheticEvent, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
+import { useTodos } from '../Store/store';
 
 const ToDoList = () => {
 	const [searchInput, setsearchInput] = useState<string>('');
@@ -21,25 +22,22 @@ const ToDoList = () => {
 	const [input, setInput] = useState<string>('');
 	const theme = useTheme();
 
+	const addTodo = useTodos((state: any) => state.addTodo);
+	const deleteTodo = useTodos((state: any) => state.deleteTodo);
+	const editTodo = useTodos((state: any) => state.editTodo);
+	const todos = useTodos((state: any) => state.todos);
+
 	const addTask = () => {
 		if (input.length === 0) return;
-		const uuid = crypto.randomUUID();
-		setTasks([...tasks, { id: uuid, title: input }]);
+		addTodo(input);
 	};
+
 	const deleteTask = (id: number) => {
-		setTasks((currentTasks) => {
-			const newTasks = currentTasks.slice();
-			newTasks.splice(id, 1);
-			return newTasks;
-		});
+		deleteTodo(id);
 	};
+
 	const editTask = (id: number, newTitle: string) => {
-		const uuid = crypto.randomUUID();
-		setTasks((currentTasks) => {
-			const newTasks = currentTasks.slice();
-			newTasks.splice(id, 1, { id: uuid, title: newTitle });
-			return newTasks;
-		});
+		editTodo(id, newTitle);
 	};
 
 	const onSearchBarChange = (
@@ -53,7 +51,7 @@ const ToDoList = () => {
 		setInput('');
 	};
 
-	let filteredTasks = tasks?.filter((task) => {
+	let filteredTasks = todos?.filter((task: any) => {
 		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
 	});
 

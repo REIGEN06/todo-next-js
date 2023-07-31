@@ -5,7 +5,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import Link from 'next/link';
 import { Button, useTheme } from '@mui/material';
 
-export default function Navigation() {
+export default function NavBar() {
 	const theme = useTheme();
 	return (
 		<Box
