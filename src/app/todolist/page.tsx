@@ -86,6 +86,9 @@ const ToDoList = () => {
 										input.focus();
 									}
 								}}
+								onKeyDown={(e) => {
+									if (e.keyCode == 13) onAddTask();
+								}}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								InputProps={{
