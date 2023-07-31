@@ -79,8 +79,13 @@ const ToDoList = () => {
 							<TextField
 								label="Добавить таск"
 								variant="outlined"
-								multiline
 								fullWidth
+								autoFocus
+								inputRef={(input) => {
+									if (input != null) {
+										input.focus();
+									}
+								}}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								InputProps={{
