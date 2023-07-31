@@ -125,7 +125,7 @@ const ToDoList = () => {
 					</Grid>
 				</ListSubheader>
 
-				{filteredTasks?.map((task: Task, id: number) => {
+				{filteredTasks?.reverse().map((task: Task, id: number) => {
 					return (
 						<TaskComponent
 							key={task.id}
