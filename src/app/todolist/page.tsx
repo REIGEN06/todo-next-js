@@ -10,7 +10,7 @@ import {
 	TextField,
 	useTheme,
 } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
@@ -18,8 +18,7 @@ import { useTodos } from '../Store/store';
 
 const ToDoList = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
-	const [tasks, setTasks] = useState<Task[]>([]);
-	const [input, setInput] = useState<string>('');
+	const taskInputRef = useRef<any>();
 	const theme = useTheme();
 
 	const addTodo = useTodos((state: any) => state.addTodo);
@@ -28,9 +27,9 @@ const ToDoList = () => {
 	const todos = useTodos((state: any) => state.todos);
 
 	const addTask = () => {
-		if (input.length === 0) return;
-		setInput('');
-		addTodo(input);
+		if (taskInputRef.current.value !== undefined)
+			addTodo(taskInputRef.current.value);
+		taskInputRef.current.value = '';
 	};
 
 	const deleteTask = (id: number) => {
@@ -49,7 +48,7 @@ const ToDoList = () => {
 		setSearchInput(value || '');
 	};
 
-	let filteredTasks = todos?.filter((task: any) => {
+	const filteredTasks = todos?.filter((task: any) => {
 		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
 	});
 
@@ -78,11 +77,8 @@ const ToDoList = () => {
 								variant="outlined"
 								fullWidth
 								autoFocus
-								onKeyDown={(e) => {
-									if (e.key == 'Enter') addTask();
-								}}
-								value={input}
-								onChange={(e) => setInput(e.target.value)}
+								inputRef={taskInputRef}
+								onKeyDown={(e) => e.key === 'Enter' && addTask()}
 								inputProps={{ maxLength: 100 }}
 								InputProps={{
 									endAdornment: (
