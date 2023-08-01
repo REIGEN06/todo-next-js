@@ -1,26 +1,30 @@
 import { create } from 'zustand';
 import { Task } from '../todolist/const/const';
 import { nanoid } from 'nanoid';
-export const useTodos = create((set) => ({
+interface TodosState {
+	todos: Task[];
+	addTodo: (title: string) => void;
+	deleteTodo: (id: number) => void;
+	editTodo: (id: number, newTitle: string) => void;
+}
+export const useTodos = create<TodosState>((set) => ({
 	todos: [],
-	addTodo: (title: string) =>
-		set((state: any) => ({
+	addTodo: (title) =>
+		set((state) => ({
 			todos: [...state.todos, { id: nanoid(), title }],
 		})),
-	deleteTodo: (id: string) => {
-		set((state: any) => {
+	deleteTodo: (id) => {
+		set((state) => {
 			const newTasks = state.todos.slice();
 			newTasks.splice(id, 1);
 			return { todos: newTasks };
 		});
 	},
-	editTodo: (id: string, newTitle: string) => {
-		set((state: any) => {
+	editTodo: (id, newTitle) => {
+		set((state) => {
 			const newTasks = state.todos.slice();
 			newTasks.splice(id, 1, { id: newTasks[id].id, title: newTitle });
 			return { todos: newTasks };
 		});
 	},
 }));
-
-//ref

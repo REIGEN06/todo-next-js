@@ -10,7 +10,7 @@ import {
 	TextField,
 	useTheme,
 } from '@mui/material';
-import { SyntheticEvent, useRef, useState } from 'react';
+import { MutableRefObject, SyntheticEvent, useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
@@ -18,13 +18,13 @@ import { useTodos } from '../Store/store';
 
 const ToDoList = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
-	const taskInputRef = useRef<any>();
+	const taskInputRef = useRef() as MutableRefObject<HTMLInputElement>;
 	const theme = useTheme();
 
-	const addTodo = useTodos((state: any) => state.addTodo);
-	const deleteTodo = useTodos((state: any) => state.deleteTodo);
-	const editTodo = useTodos((state: any) => state.editTodo);
-	const todos = useTodos((state: any) => state.todos);
+	const addTodo = useTodos((state) => state.addTodo);
+	const deleteTodo = useTodos((state) => state.deleteTodo);
+	const editTodo = useTodos((state) => state.editTodo);
+	const todos = useTodos((state) => state.todos);
 
 	const addTask = () => {
 		if (taskInputRef.current.value !== undefined)
@@ -48,7 +48,7 @@ const ToDoList = () => {
 		setSearchInput(value || '');
 	};
 
-	const filteredTasks = todos?.filter((task: any) => {
+	const filteredTasks = todos?.filter((task: Task) => {
 		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
 	});
 
@@ -97,7 +97,7 @@ const ToDoList = () => {
 						<Grid item xs={5}>
 							<Autocomplete
 								disablePortal
-								options={todos.map((option: any) => option.title).reverse()}
+								options={todos.map((task: Task) => task.title).reverse()}
 								onChange={onSearchBarChange}
 								sx={{
 									margin: '0px 0px 8px',
