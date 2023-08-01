@@ -16,6 +16,7 @@ const TaskComponent = (props: TaskComponentProps) => {
 	const [input, setInput] = useState<string>(props.data.title);
 	const [edit, setEdit] = useState<boolean>(false);
 	const editTask = () => {
+		props.onEdit(props.idInArray, input);
 		setEdit(!edit);
 	};
 
@@ -61,14 +62,11 @@ const TaskComponent = (props: TaskComponentProps) => {
 					}}
 				>
 					{edit ? (
-						<IconButton
-							sx={{ m: 1 }}
-							onClick={() => props.onEdit(props.idInArray, input)}
-						>
+						<IconButton sx={{ m: 1 }} onClick={() => editTask()}>
 							<CheckIcon />
 						</IconButton>
 					) : (
-						<IconButton sx={{ m: 1 }} onClick={() => editTask()}>
+						<IconButton sx={{ m: 1 }} onClick={() => setEdit(!edit)}>
 							<EditIcon />
 						</IconButton>
 					)}

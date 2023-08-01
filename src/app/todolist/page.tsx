@@ -17,7 +17,7 @@ import { Task } from './const/const';
 import { useTodos } from '../Store/store';
 
 const ToDoList = () => {
-	const [searchInput, setsearchInput] = useState<string>('');
+	const [searchInput, setSearchInput] = useState<string>('');
 	const [tasks, setTasks] = useState<Task[]>([]);
 	const [input, setInput] = useState<string>('');
 	const theme = useTheme();
@@ -29,6 +29,7 @@ const ToDoList = () => {
 
 	const addTask = () => {
 		if (input.length === 0) return;
+		setInput('');
 		addTodo(input);
 	};
 
@@ -40,15 +41,12 @@ const ToDoList = () => {
 		editTodo(id, newTitle);
 	};
 
+	//Если пользователь вводит что-то в поиск
 	const onSearchBarChange = (
 		event: SyntheticEvent<Element, Event>,
 		value: string | null
 	) => {
-		setsearchInput(value || '');
-	};
-	const onAddTask = () => {
-		addTask();
-		setInput('');
+		setSearchInput(value || '');
 	};
 
 	let filteredTasks = todos?.filter((task: any) => {
@@ -81,7 +79,7 @@ const ToDoList = () => {
 								fullWidth
 								autoFocus
 								onKeyDown={(e) => {
-									if (e.key == 'Enter') onAddTask();
+									if (e.key == 'Enter') addTask();
 								}}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
@@ -91,7 +89,7 @@ const ToDoList = () => {
 										<InputAdornment position="end">
 											<IconButton
 												sx={{ padding: '0px' }}
-												onClick={() => onAddTask()}
+												onClick={() => addTask()}
 											>
 												<AddIcon />
 											</IconButton>
@@ -103,7 +101,7 @@ const ToDoList = () => {
 						<Grid item xs={5}>
 							<Autocomplete
 								disablePortal
-								options={tasks.map((option) => option.title)}
+								options={todos.map((option: any) => option.title).reverse()}
 								onChange={onSearchBarChange}
 								sx={{
 									margin: '0px 0px 8px',
