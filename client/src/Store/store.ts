@@ -1,21 +1,31 @@
 import { create } from 'zustand';
 import { Task } from '../todolist/const/const';
-import axios from 'axios';
 import { nanoid } from 'nanoid';
-import { addTodoDb } from '../app/api/todoApi';
+import { addTodoDb } from '../api/todoApi';
+import axios from 'axios';
+
 interface TodosState {
 	todos: Task[];
+	setTodosFromDb: () => void;
 	addTodo: (title: string) => void;
 	deleteTodo: (id: number) => void;
 	editTodo: (id: number, newTitle: string) => void;
 }
+
 export const useTodos = create<TodosState>((set) => ({
 	todos: [],
-	addTodo: (title) => {
-		const id = nanoid();
-		addTodoDb(id, title);
+	setTodosFromDb: async () => {
+		const tasks: Task[] = await axios.get('http://localhost:8080/api/tasks');
+		set({
+			todos: tasks,
+		});
+	},
+	addTodo: async (title) => {
+		const idFromDb = await addTodoDb(title);
+		console.log(idFromDb);
+
 		set((state) => ({
-			todos: [...state.todos, { id: id, title }],
+			todos: [...state.todos, { id: idFromDb, title }],
 		}));
 	},
 	deleteTodo: (id) => {
