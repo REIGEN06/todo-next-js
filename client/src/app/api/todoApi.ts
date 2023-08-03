@@ -1,5 +1,4 @@
 import axios from 'axios';
-import useSWR from 'swr';
 export default async function fetcher<JSON = any>(
 	input: RequestInfo,
 	init?: RequestInit

@@ -11,7 +11,13 @@ import {
 	TextField,
 	useTheme,
 } from '@mui/material';
-import { MutableRefObject, SyntheticEvent, useRef, useState } from 'react';
+import {
+	MutableRefObject,
+	SyntheticEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
@@ -22,10 +28,15 @@ const ToDoList = () => {
 	const taskInputRef = useRef() as MutableRefObject<HTMLInputElement>;
 	const theme = useTheme();
 
+	const setTodosFromDb = useTodos((state) => state.setTodosFromDb);
 	const addTodo = useTodos((state) => state.addTodo);
 	const deleteTodo = useTodos((state) => state.deleteTodo);
 	const editTodo = useTodos((state) => state.editTodo);
 	const todos = useTodos((state) => state.todos);
+
+	useEffect(() => {
+		setTodosFromDb();
+	}, []);
 
 	const addTask = () => {
 		if (taskInputRef.current.value !== undefined)
