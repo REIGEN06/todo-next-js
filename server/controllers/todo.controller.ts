@@ -1,23 +1,17 @@
 const db = require('../models/index');
 class ToDoController {
 	async createTask(req: any, res: any) {
-		const { id, title } = req.body;
-
+		const { nanoid, title } = req.body;
 		db.Todo.create({
-			nanoid: id,
+			nanoid: nanoid,
 			title: title,
 		})
 			.then((result: any) => {
-				console.log(result);
-				res.end('ok');
+				res.end('200');
 			})
 			.catch((error: any) => {
-				console.log(error);
 				res.end('error');
 			});
-		// const jane = db.Todo.build({ nanoid: '5', title: 'bebra' });
-		// await jane.save();
-		res.json([id, title]);
 	}
 	async deleteTask(req: any, res: any) {}
 	async editTask(req: any, res: any) {}

@@ -14,7 +14,7 @@ import { useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from '../components/TaskComponents';
 import { Task } from '../types/types';
-import { useTodos } from './store/store';
+import { useTodos } from '../Store/store';
 
 const ToDoList = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
