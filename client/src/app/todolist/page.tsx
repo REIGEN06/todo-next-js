@@ -44,8 +44,8 @@ const ToDoList = () => {
 		taskInputRef.current.value = '';
 	};
 
-	const deleteTask = (id: number) => {
-		deleteTodo(id);
+	const deleteTask = (id: number, idInArray: number) => {
+		deleteTodo(id, idInArray);
 	};
 
 	const editTask = (id: number, newTitle: string) => {
@@ -134,13 +134,13 @@ const ToDoList = () => {
 					</Grid>
 				</ListSubheader>
 				{filteredTasks
-					?.map((task: Task, id: number) => {
+					?.map((task: Task, idInArray: number) => {
 						return (
 							<TaskComponent
 								key={task.id}
 								data={task}
-								idInArray={id}
-								onDelete={() => deleteTask(id)}
+								idInArray={idInArray}
+								onDelete={() => deleteTask(task.id, idInArray)}
 								onEdit={editTask}
 							/>
 						);
