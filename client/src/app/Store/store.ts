@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { Task } from '../todolist/const/const';
+import axios from 'axios';
 import { nanoid } from 'nanoid';
+import { addTodoDb } from '../api/todoApi';
 interface TodosState {
 	todos: Task[];
 	addTodo: (title: string) => void;
@@ -9,10 +11,13 @@ interface TodosState {
 }
 export const useTodos = create<TodosState>((set) => ({
 	todos: [],
-	addTodo: (title) =>
+	addTodo: (title) => {
+		const id = nanoid();
+		addTodoDb(id, title);
 		set((state) => ({
-			todos: [...state.todos, { id: nanoid(), title }],
-		})),
+			todos: [...state.todos, { id: id, title }],
+		}));
+	},
 	deleteTodo: (id) => {
 		set((state) => {
 			const newTasks = state.todos.slice();

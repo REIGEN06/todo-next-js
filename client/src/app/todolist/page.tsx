@@ -15,7 +15,6 @@ import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
 import { useTodos } from '../Store/store';
-
 const ToDoList = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
 	const taskInputRef = useRef() as MutableRefObject<HTMLInputElement>;
