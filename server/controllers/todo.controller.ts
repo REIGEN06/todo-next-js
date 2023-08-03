@@ -10,11 +10,8 @@ class ToDoController {
 	async deleteTask(req: any, res: any) {
 		db.Todo.destroy({
 			where: {
-				title: 'qwe',
+				id: req.params.id,
 			},
-		}).then((res: any) => {
-			console.log(res);
-			res.send('ok');
 		});
 	}
 	async editTask(req: any, res: any) {

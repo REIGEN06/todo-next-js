@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { Task } from '../todolist/const/const';
-import { addTodoDb } from '../api/todoApi';
+import { addTodoDb, deleteTodoDb } from '../api/todoApi';
 import axios from 'axios';
 
 interface TodosState {
 	todos: Task[];
 	setTodosFromDb: () => void;
 	addTodo: (title: string) => void;
-	deleteTodo: (id: number) => void;
+	deleteTodo: (id: number, idInArray: number) => void;
 	editTodo: (id: number, newTitle: string) => void;
 }
 
@@ -29,10 +29,11 @@ export const useTodos = create<TodosState>((set) => ({
 			todos: [...state.todos, { id: idFromDb, title }],
 		}));
 	},
-	deleteTodo: (id) => {
+	deleteTodo: (id, idInArray) => {
+		deleteTodoDb(id);
 		set((state) => {
 			const newTasks = state.todos.slice();
-			newTasks.splice(id, 1);
+			newTasks.splice(idInArray, 1);
 			return { todos: newTasks };
 		});
 	},

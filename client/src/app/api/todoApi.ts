@@ -16,3 +16,7 @@ export const addTodoDb = (title: string): Promise<number> => {
 		})
 		.then((res) => res.data);
 };
+
+export const deleteTodoDb = (id: number): void => {
+	axios.delete(`http://localhost:8080/api/task/${id}`);
+};

@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Todo.init(
 		{
-			nanoid: DataTypes.STRING,
 			title: DataTypes.STRING,
 		},
 		{
