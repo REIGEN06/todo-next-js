@@ -48,8 +48,8 @@ const ToDoList = () => {
 		deleteTodo(id, idInArray);
 	};
 
-	const editTask = (id: number, newTitle: string) => {
-		editTodo(id, newTitle);
+	const editTask = (id: number, idInArray: number, newTitle: string) => {
+		editTodo(id, idInArray, newTitle);
 	};
 
 	//Если пользователь вводит что-то в поиск

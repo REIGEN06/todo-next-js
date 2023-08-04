@@ -9,14 +9,14 @@ type TaskComponentProps = {
 	data: Task;
 	idInArray: number;
 	onDelete: () => void;
-	onEdit: (id: number, newTitle: string) => void;
+	onEdit: (id: number, idInArray: number, newTitle: string) => void;
 };
 
 const TaskComponent = (props: TaskComponentProps) => {
 	const [input, setInput] = useState<string>(props.data.title);
 	const [edit, setEdit] = useState<boolean>(false);
 	const editTask = () => {
-		props.onEdit(props.idInArray, input);
+		props.onEdit(props.data.id, props.idInArray, input);
 		setEdit(!edit);
 	};
 

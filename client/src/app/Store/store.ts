@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Task } from '../todolist/const/const';
-import { addTodoDb, deleteTodoDb } from '../api/todoApi';
+import { addTodoDb, deleteTodoDb, editTodoDb } from '../api/todoApi';
 import axios from 'axios';
 
 interface TodosState {
@@ -8,7 +8,7 @@ interface TodosState {
 	setTodosFromDb: () => void;
 	addTodo: (title: string) => void;
 	deleteTodo: (id: number, idInArray: number) => void;
-	editTodo: (id: number, newTitle: string) => void;
+	editTodo: (id: number, idInArray: number, newTitle: string) => void;
 }
 
 export const useTodos = create<TodosState>((set) => ({
@@ -37,10 +37,14 @@ export const useTodos = create<TodosState>((set) => ({
 			return { todos: newTasks };
 		});
 	},
-	editTodo: (id, newTitle) => {
+	editTodo: (id, idInArray, newTitle) => {
+		editTodoDb(id, newTitle);
 		set((state) => {
 			const newTasks = state.todos.slice();
-			newTasks.splice(id, 1, { id: newTasks[id].id, title: newTitle });
+			newTasks.splice(idInArray, 1, {
+				id: id,
+				title: newTitle,
+			});
 			return { todos: newTasks };
 		});
 	},

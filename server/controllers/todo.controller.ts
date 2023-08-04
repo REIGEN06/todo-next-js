@@ -15,17 +15,16 @@ class ToDoController {
 		});
 	}
 	async editTask(req: any, res: any) {
+		console.log(req.body.title);
+
 		db.Todo.update(
-			{ nanoid: '666' },
+			{ title: req.body.title },
 			{
 				where: {
-					title: 'sdfs',
+					id: req.params.id,
 				},
 			}
-		).then((res: any) => {
-			console.log(res);
-			res.send('ok');
-		});
+		);
 	}
 	async getTasks(req: any, res: any) {
 		const result = await db.Todo.findAll({ raw: true });
