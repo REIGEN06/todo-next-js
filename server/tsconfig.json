@@ -12,9 +12,9 @@
 	"include": [
 		"**/*.ts",
 		"**/*.tsx",
-		"models/index.js",
-		"models/todo.js",
-		"migrations/20230802174227-create-todo.js"
+		"models/index.ts",
+		"models/todo.ts",
+		"migrations/20230802174227-create-todo.ts"
 	],
 	"exclude": ["node_modules"]
 }
