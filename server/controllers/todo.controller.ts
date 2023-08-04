@@ -1,14 +1,14 @@
-const db = require('../models/index');
+const database = require('../models/index');
 class ToDoController {
 	async createTask(req: any, res: any) {
 		const { title } = req.body;
-		const newTask = await db.Todo.create({
+		const newTask = await database.Todo.create({
 			title: title,
 		});
 		res.json(newTask.id);
 	}
 	async deleteTask(req: any, res: any) {
-		db.Todo.destroy({
+		database.Todo.destroy({
 			where: {
 				id: req.params.id,
 			},
@@ -17,7 +17,7 @@ class ToDoController {
 	async editTask(req: any, res: any) {
 		console.log(req.body.title);
 
-		db.Todo.update(
+		database.Todo.update(
 			{ title: req.body.title },
 			{
 				where: {
@@ -27,7 +27,7 @@ class ToDoController {
 		);
 	}
 	async getTasks(req: any, res: any) {
-		const result = await db.Todo.findAll({ raw: true });
+		const result = await database.Todo.findAll({ raw: true });
 		res.json(result);
 	}
 }
