@@ -20,3 +20,15 @@ export const addTodoDb = (title: string): Promise<number> => {
 export const deleteTodoDb = (id: number): void => {
 	axios.delete(`http://localhost:8080/api/task/${id}`);
 };
+
+export const editTodoDb = (id: number, newTitle: string): void => {
+	axios.put(
+		`http://localhost:8080/api/task/${id}`,
+		JSON.stringify({ title: newTitle }),
+		{
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8',
+			},
+		}
+	);
+};
