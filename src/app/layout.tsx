@@ -17,13 +17,14 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body style={{ margin: '0px' }} className={inter.className}>
-				<div style={{ backgroundColor: '#edeef0' }}>
-					<Theme>
-						<NavBar />
-						{children}
-					</Theme>
-				</div>
+			<body
+				style={{ margin: '0px', backgroundColor: '#edeef0' }}
+				className={inter.className}
+			>
+				<Theme>
+					<NavBar />
+					{children}
+				</Theme>
 			</body>
 		</html>
 	);
