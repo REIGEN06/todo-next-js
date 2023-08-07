@@ -128,8 +128,8 @@ const ToDoList = () => {
 							<TaskComponent
 								key={task.id}
 								data={task}
-								idInArray={id}
-								onDelete={() => deleteTask(id)}
+								idInArray={todos.indexOf(task)}
+								onDelete={() => deleteTask(todos.indexOf(task))}
 								onEdit={editTask}
 							/>
 						);
