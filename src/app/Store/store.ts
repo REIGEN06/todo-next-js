@@ -5,31 +5,32 @@ import { nanoid } from 'nanoid';
 interface TodosState {
 	todos: Task[];
 	addTodo: (title: string) => void;
-	deleteTodo: (id: number) => void;
-	editTodo: (id: number, newTitle: string) => void;
+	deleteTodo: (id: string) => void;
+	editTodo: (id: string, newTitle: string) => void;
 }
 
 export const useTodos = create<TodosState>((set) => ({
 	todos: [],
 
-	addTodo: (title) =>
+	addTodo: (title) => {
 		set((state) => ({
 			todos: [...state.todos, { id: nanoid(), title }],
-		})),
+		}));
+	},
 
 	deleteTodo: (id) => {
-		set((state) => {
-			const newTasks = state.todos.slice();
-			newTasks.splice(id, 1);
-			return { todos: newTasks };
-		});
+		set((state) => ({
+			todos: state.todos.filter((todo) => {
+				return todo.id !== id;
+			}),
+		}));
 	},
 
-	editTodo: (id, newTitle) => {
-		set((state) => {
-			const newTasks = state.todos.slice();
-			newTasks.splice(id, 1, { id: newTasks[id].id, title: newTitle });
-			return { todos: newTasks };
-		});
-	},
+	editTodo: (id, newTitle) =>
+		set((state) => ({
+			todos: state.todos.map((todo) => {
+				todo.id === id && (todo.title = newTitle);
+				return todo;
+			}),
+		})),
 }));

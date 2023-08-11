@@ -95,8 +95,7 @@ const ToDoList = () => {
 					<TaskComponent
 						key={task.id}
 						task={task}
-						idInArray={todos.indexOf(task)}
-						onDelete={() => deleteTodo(todos.indexOf(task))}
+						onDelete={() => deleteTodo(task.id)}
 						onEdit={editTodo}
 					/>
 				);

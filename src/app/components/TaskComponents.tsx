@@ -14,22 +14,16 @@ import { Task } from '../const/const';
 
 interface TaskComponentProps {
 	task: Task;
-	idInArray: number;
 	onDelete: () => void;
-	onEdit: (id: number, newTitle: string) => void;
+	onEdit: (id: string, newTitle: string) => void;
 }
 
-const TaskComponent = ({
-	task,
-	idInArray,
-	onDelete,
-	onEdit,
-}: TaskComponentProps) => {
+const TaskComponent = ({ task, onDelete, onEdit }: TaskComponentProps) => {
 	const [input, setInput] = useState<string>(task.title);
 	const [edit, setEdit] = useState<boolean>(false);
 
 	const editTask = () => {
-		onEdit(idInArray, input);
+		onEdit(task.id, input);
 		setEdit(!edit);
 	};
 
@@ -55,7 +49,7 @@ const TaskComponent = ({
 						fullWidth
 						sx={{ p: 1 }}
 						InputProps={InputPropsReadOnly}
-						value={task.title + ' ------ id: ' + idInArray}
+						value={task.title}
 					/>
 				)}
 
