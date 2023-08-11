@@ -32,18 +32,7 @@ const ToDoList = () => {
 		}
 	};
 
-	const deleteTask = (id: number) => {
-		deleteTodo(id);
-	};
-
-	const editTask = (id: number, newTitle: string) => {
-		editTodo(id, newTitle);
-	};
-
-	const onSearchBarChange = (
-		event: SyntheticEvent<Element, Event>,
-		value: string | null
-	) => {
+	const onSearchBarChange = (value: string | null) => {
 		setSearchInput(value || '');
 	};
 
@@ -68,10 +57,7 @@ const ToDoList = () => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end">
-										<IconButton
-											sx={{ padding: '0px' }}
-											onClick={() => addTask()}
-										>
+										<IconButton sx={{ padding: '0px' }} onClick={addTask}>
 											<AddIcon />
 										</IconButton>
 									</InputAdornment>
@@ -84,7 +70,7 @@ const ToDoList = () => {
 						<Autocomplete
 							disablePortal
 							options={todos.map((task: Task) => task.title).reverse()}
-							onChange={onSearchBarChange}
+							onChange={(event, value) => onSearchBarChange(value)}
 							sx={{
 								marginBottom: 1,
 							}}
@@ -108,19 +94,17 @@ const ToDoList = () => {
 				</GridContainer>
 			</ListSubheader>
 
-			{filteredTasks
-				?.map((task: Task, id: number) => {
-					return (
-						<TaskComponent
-							key={task.id}
-							data={task}
-							idInArray={todos.indexOf(task)}
-							onDelete={() => deleteTask(todos.indexOf(task))}
-							onEdit={editTask}
-						/>
-					);
-				})
-				.reverse()}
+			{filteredTasks?.reverse().map((task: Task, id: number) => {
+				return (
+					<TaskComponent
+						key={task.id}
+						task={task}
+						idInArray={todos.indexOf(task)}
+						onDelete={() => deleteTodo(todos.indexOf(task))}
+						onEdit={editTodo}
+					/>
+				);
+			})}
 		</StyledStack>
 	);
 };

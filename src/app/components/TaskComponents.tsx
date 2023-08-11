@@ -13,14 +13,14 @@ import { useState } from 'react';
 import { Task } from '../const/const';
 
 interface TaskComponentProps {
-	data: Task;
+	task: Task;
 	idInArray: number;
 	onDelete: () => void;
 	onEdit: (id: number, newTitle: string) => void;
 }
 
 const TaskComponent = (props: TaskComponentProps) => {
-	const [input, setInput] = useState<string>(props.data.title);
+	const [input, setInput] = useState<string>(props.task.title);
 	const [edit, setEdit] = useState<boolean>(false);
 
 	const editTask = () => {
@@ -48,7 +48,7 @@ const TaskComponent = (props: TaskComponentProps) => {
 						multiline
 						fullWidth
 						InputProps={InputPropsReadOnly}
-						value={props.data.title + ' ------ id: ' + props.idInArray}
+						value={props.task.title + ' ------ id: ' + props.idInArray}
 					/>
 				)}
 
