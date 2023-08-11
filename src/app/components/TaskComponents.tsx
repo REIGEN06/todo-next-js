@@ -42,6 +42,7 @@ const TaskComponent = ({
 						variant="standard"
 						multiline
 						fullWidth
+						sx={{ p: '0px 8px 8px 8px' }}
 						InputProps={InputProps}
 						inputProps={{ maxLength: 100 }}
 						value={input}
@@ -52,6 +53,7 @@ const TaskComponent = ({
 						variant="standard"
 						multiline
 						fullWidth
+						sx={{ p: 1 }}
 						InputProps={InputPropsReadOnly}
 						value={task.title + ' ------ id: ' + idInArray}
 					/>

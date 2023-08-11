@@ -10,7 +10,7 @@ import {
 	Theme,
 	styled,
 } from '@mui/material';
-import { MutableRefObject, SyntheticEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from './components/TaskComponents';
 import { Task } from './const/const';
@@ -30,10 +30,6 @@ const ToDoList = () => {
 
 		addTodo(taskInputRef.current.value);
 		taskInputRef.current.value = '';
-	};
-
-	const onSearchBarChange = (value: string | null) => {
-		setSearchInput(value || '');
 	};
 
 	const filteredTasks = todos?.filter((task: Task) => {
@@ -70,7 +66,7 @@ const ToDoList = () => {
 						<Autocomplete
 							disablePortal
 							options={todos.map((task: Task) => task.title).reverse()}
-							onChange={(event, value) => onSearchBarChange(value)}
+							onChange={(event, value) => setSearchInput(value || '')}
 							sx={{
 								marginBottom: 1,
 							}}
@@ -123,5 +119,3 @@ const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
 	borderRadius: '10px',
 	backgroundColor: `${theme.palette.BackgroundColors.main}`,
 }));
-
-const InputProps = {};
