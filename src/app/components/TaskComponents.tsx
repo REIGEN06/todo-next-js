@@ -1,7 +1,14 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box, Divider, IconButton, Paper, TextField } from '@mui/material';
+import {
+	Box,
+	Divider,
+	IconButton,
+	Paper,
+	TextField,
+	styled,
+} from '@mui/material';
 import { useState } from 'react';
 import { Task } from '../const/const';
 
@@ -15,52 +22,37 @@ type TaskComponentProps = {
 const TaskComponent = (props: TaskComponentProps) => {
 	const [input, setInput] = useState<string>(props.data.title);
 	const [edit, setEdit] = useState<boolean>(false);
+
 	const editTask = () => {
 		props.onEdit(props.idInArray, input);
 		setEdit(!edit);
 	};
 
 	return (
-		<Paper
-			component="form"
-			sx={{
-				m: '16px 8px',
-			}}
-		>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-				}}
-			>
+		<WrapperTask>
+			<WrapperBox>
 				{edit ? (
 					<TextField
 						label="Редактировать задачу"
-						variant="outlined"
+						variant="standard"
 						multiline
 						fullWidth
+						InputProps={InputProps}
 						inputProps={{ maxLength: 100 }}
 						value={input}
 						onChange={(e) => setInput(e.target.value)}
 					/>
 				) : (
 					<TextField
-						variant="outlined"
+						variant="standard"
 						multiline
 						fullWidth
-						InputProps={{
-							readOnly: true,
-						}}
+						InputProps={InputPropsReadOnly}
 						value={props.data.title + ' ------ id: ' + props.idInArray}
 					/>
 				)}
 
-				<Box
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-					}}
-				>
+				<WrapperBox>
 					{edit ? (
 						<IconButton sx={{ m: 1 }} onClick={() => editTask()}>
 							<CheckIcon />
@@ -71,15 +63,33 @@ const TaskComponent = (props: TaskComponentProps) => {
 						</IconButton>
 					)}
 
-					<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+					<Divider sx={{ height: 28, p: '4px' }} orientation="vertical" />
 
 					<IconButton sx={{ m: 1 }} onClick={props.onDelete}>
 						<DeleteIcon />
 					</IconButton>
-				</Box>
-			</Box>
-		</Paper>
+				</WrapperBox>
+			</WrapperBox>
+		</WrapperTask>
 	);
 };
 
 export default TaskComponent;
+
+const InputProps = {
+	disableUnderline: true,
+};
+
+const InputPropsReadOnly = {
+	readOnly: true,
+	disableUnderline: true,
+};
+
+const WrapperTask = styled(Paper)({
+	margin: '16px 8px',
+});
+
+const WrapperBox = styled(Box)({
+	display: 'flex',
+	alignItems: 'center',
+});

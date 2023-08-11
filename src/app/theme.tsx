@@ -3,27 +3,13 @@ import { createTheme, responsiveFontSizes } from '@mui/material';
 
 declare module '@mui/material/styles' {
 	interface Palette {
-		BGcolors: Palette['primary'];
+		BackgroundColors: Palette['primary'];
 		border: Palette['primary'];
 	}
 
 	interface PaletteOptions {
-		BGcolors?: PaletteOptions['primary'];
+		BackgroundColors?: PaletteOptions['primary'];
 		border?: PaletteOptions['primary'];
-	}
-
-	interface Theme {
-		BGcolors: {
-			default: string;
-			paper: string;
-		};
-	}
-
-	interface ThemeOptions {
-		BGcolors?: {
-			default?: string;
-			paper?: string;
-		};
 	}
 }
 
@@ -31,7 +17,7 @@ let theme = createTheme({
 	palette: {
 		primary: {
 			main: '#79818c',
-			dark: 'black',
+			dark: '#000000',
 		},
 		secondary: {
 			main: '#2775fc',
@@ -40,9 +26,9 @@ let theme = createTheme({
 		border: {
 			main: '#dce1e6',
 		},
-		BGcolors: {
+		BackgroundColors: {
 			main: '#ffffff',
-			dark: 'edeef0',
+			dark: '#edeef0',
 		},
 	},
 	typography: {

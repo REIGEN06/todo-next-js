@@ -1,18 +1,22 @@
 import { create } from 'zustand';
 import { Task } from '../const/const';
 import { nanoid } from 'nanoid';
+
 interface TodosState {
 	todos: Task[];
 	addTodo: (title: string) => void;
 	deleteTodo: (id: number) => void;
 	editTodo: (id: number, newTitle: string) => void;
 }
+
 export const useTodos = create<TodosState>((set) => ({
 	todos: [],
+
 	addTodo: (title) =>
 		set((state) => ({
 			todos: [...state.todos, { id: nanoid(), title }],
 		})),
+
 	deleteTodo: (id) => {
 		set((state) => {
 			const newTasks = state.todos.slice();
@@ -20,6 +24,7 @@ export const useTodos = create<TodosState>((set) => ({
 			return { todos: newTasks };
 		});
 	},
+
 	editTodo: (id, newTitle) => {
 		set((state) => {
 			const newTasks = state.todos.slice();
