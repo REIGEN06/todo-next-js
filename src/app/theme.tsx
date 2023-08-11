@@ -1,5 +1,5 @@
 'use client';
-import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
+import { createTheme, responsiveFontSizes } from '@mui/material';
 
 declare module '@mui/material/styles' {
 	interface Palette {
@@ -18,7 +18,7 @@ declare module '@mui/material/styles' {
 			paper: string;
 		};
 	}
-	// allow configuration using `createTheme`
+
 	interface ThemeOptions {
 		BGcolors?: {
 			default?: string;
@@ -52,8 +52,4 @@ let theme = createTheme({
 
 theme = responsiveFontSizes(theme);
 
-const Theme = ({ children }: React.PropsWithChildren) => (
-	<ThemeProvider theme={theme}>{children}</ThemeProvider>
-);
-
-export default Theme;
+export default theme;

@@ -51,7 +51,7 @@ const TaskComponent = (props: TaskComponentProps) => {
 						InputProps={{
 							readOnly: true,
 						}}
-						value={props.data.title}
+						value={props.data.title + ' ------ id: ' + props.idInArray}
 					/>
 				)}
 

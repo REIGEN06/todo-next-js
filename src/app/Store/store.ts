@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Task } from '../todolist/const/const';
+import { Task } from '../const/const';
 import { nanoid } from 'nanoid';
 interface TodosState {
 	todos: Task[];
