@@ -12,12 +12,12 @@ import {
 import { useState } from 'react';
 import { Task } from '../const/const';
 
-type TaskComponentProps = {
+interface TaskComponentProps {
 	data: Task;
 	idInArray: number;
 	onDelete: () => void;
 	onEdit: (id: number, newTitle: string) => void;
-};
+}
 
 const TaskComponent = (props: TaskComponentProps) => {
 	const [input, setInput] = useState<string>(props.data.title);

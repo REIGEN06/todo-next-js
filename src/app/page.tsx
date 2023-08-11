@@ -1,16 +1,12 @@
 'use client';
 import {
 	Autocomplete,
-	Container,
 	Grid,
 	IconButton,
 	InputAdornment,
-	List,
 	ListSubheader,
 	Stack,
 	TextField,
-	useTheme,
-	Button,
 	Theme,
 	styled,
 } from '@mui/material';
@@ -21,10 +17,8 @@ import { Task } from './const/const';
 import { useTodos } from './store/store';
 
 const ToDoList = () => {
-	const theme = useTheme();
-
 	const [searchInput, setSearchInput] = useState<string>('');
-	const taskInputRef = useRef() as MutableRefObject<HTMLInputElement>;
+	const taskInputRef = useRef<HTMLInputElement>(null);
 
 	const addTodo = useTodos((state) => state.addTodo);
 	const deleteTodo = useTodos((state) => state.deleteTodo);
@@ -32,9 +26,10 @@ const ToDoList = () => {
 	const todos = useTodos((state) => state.todos);
 
 	const addTask = () => {
-		if (taskInputRef.current.value !== undefined)
+		if (taskInputRef.current?.value) {
 			addTodo(taskInputRef.current.value);
-		taskInputRef.current.value = '';
+			taskInputRef.current.value = '';
+		}
 	};
 
 	const deleteTask = (id: number) => {
