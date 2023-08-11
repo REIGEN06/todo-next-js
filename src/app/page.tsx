@@ -26,10 +26,10 @@ const ToDoList = () => {
 	const todos = useTodos((state) => state.todos);
 
 	const addTask = () => {
-		if (taskInputRef.current?.value) {
-			addTodo(taskInputRef.current.value);
-			taskInputRef.current.value = '';
-		}
+		if (!taskInputRef.current?.value) return;
+
+		addTodo(taskInputRef.current.value);
+		taskInputRef.current.value = '';
 	};
 
 	const onSearchBarChange = (value: string | null) => {
@@ -123,3 +123,5 @@ const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
 	borderRadius: '10px',
 	backgroundColor: `${theme.palette.BackgroundColors.main}`,
 }));
+
+const InputProps = {};

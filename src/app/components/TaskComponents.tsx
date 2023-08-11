@@ -19,12 +19,17 @@ interface TaskComponentProps {
 	onEdit: (id: number, newTitle: string) => void;
 }
 
-const TaskComponent = (props: TaskComponentProps) => {
-	const [input, setInput] = useState<string>(props.task.title);
+const TaskComponent = ({
+	task,
+	idInArray,
+	onDelete,
+	onEdit,
+}: TaskComponentProps) => {
+	const [input, setInput] = useState<string>(task.title);
 	const [edit, setEdit] = useState<boolean>(false);
 
 	const editTask = () => {
-		props.onEdit(props.idInArray, input);
+		onEdit(idInArray, input);
 		setEdit(!edit);
 	};
 
@@ -48,7 +53,7 @@ const TaskComponent = (props: TaskComponentProps) => {
 						multiline
 						fullWidth
 						InputProps={InputPropsReadOnly}
-						value={props.task.title + ' ------ id: ' + props.idInArray}
+						value={task.title + ' ------ id: ' + idInArray}
 					/>
 				)}
 
@@ -65,7 +70,7 @@ const TaskComponent = (props: TaskComponentProps) => {
 
 					<Divider sx={{ height: 28, p: '4px' }} orientation="vertical" />
 
-					<IconButton sx={{ m: 1 }} onClick={props.onDelete}>
+					<IconButton sx={{ m: 1 }} onClick={onDelete}>
 						<DeleteIcon />
 					</IconButton>
 				</WrapperBox>
