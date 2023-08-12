@@ -1,9 +1,8 @@
-'use client';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NavBar from '../components/NavBar';
 import theme from '../theme/theme';
-import { Stack, Theme, ThemeProvider, styled } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import './layout.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -25,17 +24,10 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<ThemeProvider theme={theme}>
-					<StyledStack>
-						<NavBar />
-						{children}
-					</StyledStack>
+					<NavBar />
+					{children}
 				</ThemeProvider>
 			</body>
 		</html>
 	);
 }
-
-const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
-	backgroundColor: theme.palette.BackgroundColors.dark,
-	height: typeof window !== undefined ? window.innerHeight : '100%',
-}));
