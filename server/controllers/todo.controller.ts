@@ -1,48 +1,49 @@
+const database = require('../models/index');
 import { Request, Response } from 'express';
 import { z } from 'zod';
-const database = require('../models/index');
 
 const taskSchema = z.object({
 	title: z.string().optional(),
-	id: z.string().optional(),
+	id: z.number().optional(),
 	done: z.boolean().optional(),
 });
 
 class ToDoController {
 	async getTasks(req: Request, res: Response) {
-		const result = await database.Todo.findAll({ raw: true });
-		res.json(result);
+		const tasks = await database.Todo.findAll({ raw: true });
+
+		res.json(tasks);
 	}
 
 	async createTask(req: Request, res: Response) {
-		const reqBody = taskSchema.parse(req.body);
+		const task = taskSchema.parse(req.body);
+
 		const newTask = await database.Todo.create({
-			title: reqBody.title,
+			title: task.title,
+			done: task.done,
 		});
+
 		res.json(newTask.id);
 	}
 
 	async deleteTask(req: Request, res: Response) {
-		const reqParams = taskSchema.parse(req.params);
+		const taskId = taskSchema.parse(req.params);
+
 		database.Todo.destroy({
 			where: {
-				id: reqParams.id,
+				id: taskId.id,
 			},
 		});
 	}
 
 	async updateTask(req: Request, res: Response) {
-		console.log(req.params.id, typeof req.params.id);
-		console.log(req.body.title, typeof req.body.title);
-		console.log(req.body.done, typeof req.body.done);
+		const task = taskSchema.parse(req.body);
 
-		const reqId = taskSchema.parse(req.params);
-		const reqProps = taskSchema.parse(req.body);
 		database.Todo.update(
-			{ title: reqProps.title, done: reqProps.done },
+			{ title: task.title, done: task.done },
 			{
 				where: {
-					id: reqId.id,
+					id: task.id,
 				},
 			}
 		);

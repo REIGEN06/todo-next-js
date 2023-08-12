@@ -1,5 +1,7 @@
 'use strict';
+
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
 	class Todo extends Model {
 		/**
@@ -13,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Todo.init(
 		{
+			id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 			title: DataTypes.STRING,
+			done: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,

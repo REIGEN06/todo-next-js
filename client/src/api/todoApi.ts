@@ -15,11 +15,15 @@ export const getTodosFromDb = (): Promise<Task[]> => {
 
 export const addTodoDb = (title: string): Promise<number> => {
 	return axios
-		.post('http://localhost:8080/api/task', JSON.stringify({ title: title }), {
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-			},
-		})
+		.post(
+			'http://localhost:8080/api/task',
+			JSON.stringify({ title: title, done: false }),
+			{
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8',
+				},
+			}
+		)
 		.then((res) => res.data);
 };
 
@@ -28,15 +32,13 @@ export const deleteTodoDb = (id: number): void => {
 };
 
 export const updateTodoDb = ({ id, title, done }: Task): void => {
-	console.log(id, title, done);
-
-	// axios({
-	// 	method: 'put',
-	// 	url: `http://localhost:8080/api/task/${id}`,
-	// 	data: {
-	// 		id: id,
-	// 		title: title,
-	// 		done: done,
-	// 	},
-	// });
+	axios.put(
+		`http://localhost:8080/api/task/${id}`,
+		JSON.stringify({ id: id, title: title, done: done }),
+		{
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8',
+			},
+		}
+	);
 };

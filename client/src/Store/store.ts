@@ -57,6 +57,8 @@ export const useTodos = create<TodosState>((set) => ({
 	},
 
 	doneTodo: async (task: Task) => {
+		console.log(task);
+
 		await updateTodoDb(task);
 
 		set((state) => ({
