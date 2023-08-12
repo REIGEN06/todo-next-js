@@ -3,11 +3,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import {
 	Box,
+	Checkbox,
 	Divider,
 	IconButton,
 	Paper,
 	TextField,
 	styled,
+	useTheme,
 } from '@mui/material';
 import { useState } from 'react';
 import { Task } from '../const/const';
@@ -15,10 +17,18 @@ import { Task } from '../const/const';
 interface TaskComponentProps {
 	task: Task;
 	onDelete: () => void;
+	onDone: () => void;
 	onEdit: (id: string, newTitle: string) => void;
 }
 
-const TaskComponent = ({ task, onDelete, onEdit }: TaskComponentProps) => {
+const TaskComponent = ({
+	task,
+	onDelete,
+	onDone,
+	onEdit,
+}: TaskComponentProps) => {
+	const theme = useTheme();
+
 	const [input, setInput] = useState<string>(task.title);
 	const [edit, setEdit] = useState<boolean>(false);
 
@@ -28,8 +38,18 @@ const TaskComponent = ({ task, onDelete, onEdit }: TaskComponentProps) => {
 	};
 
 	return (
-		<WrapperTask>
+		<WrapperTask
+			sx={{
+				backgroundColor: task.done
+					? theme.palette.BackgroundColors.dark
+					: 'none',
+			}}
+		>
 			<WrapperBox>
+				<Checkbox checked={task.done} onChange={onDone} />
+
+				<Divider sx={{ height: 28, m: '4px' }} orientation="vertical" />
+
 				{edit ? (
 					<TextField
 						label="Редактировать задачу"
@@ -47,7 +67,14 @@ const TaskComponent = ({ task, onDelete, onEdit }: TaskComponentProps) => {
 						variant="standard"
 						multiline
 						fullWidth
-						sx={{ p: 1 }}
+						sx={{ p: 1, input: { cursor: 'pointer' } }}
+						style={
+							task.done
+								? {
+										textDecoration: 'line-through',
+								  }
+								: { textDecoration: 'none' }
+						}
 						InputProps={InputPropsReadOnly}
 						value={task.title}
 					/>

@@ -23,6 +23,7 @@ const ToDoList = () => {
 	const addTodo = useTodos((state) => state.addTodo);
 	const deleteTodo = useTodos((state) => state.deleteTodo);
 	const editTodo = useTodos((state) => state.editTodo);
+	const doneTodo = useTodos((state) => state.doneTodo);
 	const todos = useTodos((state) => state.todos);
 
 	const addTask = () => {
@@ -90,13 +91,14 @@ const ToDoList = () => {
 				</GridContainer>
 			</ListSubheader>
 
-			{filteredTasks?.reverse().map((task: Task, id: number) => {
+			{filteredTasks?.reverse().map((task: Task) => {
 				return (
 					<TaskComponent
 						key={task.id}
 						task={task}
-						onDelete={() => deleteTodo(task.id)}
 						onEdit={editTodo}
+						onDelete={() => deleteTodo(task.id)}
+						onDone={() => doneTodo(task.id)}
 					/>
 				);
 			})}
