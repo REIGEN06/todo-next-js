@@ -10,7 +10,7 @@ import {
 	Theme,
 	styled,
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import TaskComponent from '../components/TaskComponents';
 import { Task } from '../types/types';
@@ -20,8 +20,13 @@ const ToDoList = () => {
 	const [searchInput, setSearchInput] = useState<string>('');
 	const taskInputRef = useRef<HTMLInputElement>(null);
 
-	const addTodo = useTodos((state) => state.addTodo);
 	const todos = useTodos((state) => state.todos);
+	const SetTodosFromDb = useTodos((state) => state.getTodosFromDbAndSet);
+	const addTodo = useTodos((state) => state.addTodo);
+
+	useEffect(() => {
+		SetTodosFromDb();
+	}, []);
 
 	const addTask = () => {
 		if (!taskInputRef.current?.value) return;
