@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import { useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import TaskComponent from './components/TaskComponents';
-import { Task } from './const/const';
+import TaskComponent from '../components/TaskComponents';
+import { Task } from '../types/types';
 import { useTodos } from './store/store';
 
 const ToDoList = () => {
@@ -21,9 +21,6 @@ const ToDoList = () => {
 	const taskInputRef = useRef<HTMLInputElement>(null);
 
 	const addTodo = useTodos((state) => state.addTodo);
-	const deleteTodo = useTodos((state) => state.deleteTodo);
-	const editTodo = useTodos((state) => state.editTodo);
-	const doneTodo = useTodos((state) => state.doneTodo);
 	const todos = useTodos((state) => state.todos);
 
 	const addTask = () => {
@@ -92,15 +89,7 @@ const ToDoList = () => {
 			</ListSubheader>
 
 			{filteredTasks?.reverse().map((task: Task) => {
-				return (
-					<TaskComponent
-						key={task.id}
-						task={task}
-						onEdit={editTodo}
-						onDelete={() => deleteTodo(task.id)}
-						onDone={() => doneTodo(task.id)}
-					/>
-				);
+				return <TaskComponent key={task.id} task={task} />;
 			})}
 		</StyledStack>
 	);
@@ -119,4 +108,7 @@ const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
 	border: `1px solid ${theme.palette.border.main}`,
 	borderRadius: '10px',
 	backgroundColor: `${theme.palette.BackgroundColors.main}`,
+	'@media (max-width: 890px)': {
+		margin: '24px 10px',
+	},
 }));

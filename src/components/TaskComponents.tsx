@@ -12,28 +12,25 @@ import {
 	useTheme,
 } from '@mui/material';
 import { useState } from 'react';
-import { Task } from '../const/const';
+import { Task } from '../types/types';
+import { useTodos } from '../app/store/store';
 
-interface TaskComponentProps {
+interface TaskProps {
 	task: Task;
-	onDelete: () => void;
-	onDone: () => void;
-	onEdit: (id: string, newTitle: string) => void;
 }
 
-const TaskComponent = ({
-	task,
-	onDelete,
-	onDone,
-	onEdit,
-}: TaskComponentProps) => {
+const TaskComponent = ({ task }: TaskProps) => {
 	const theme = useTheme();
+
+	const deleteTodo = useTodos((state) => state.deleteTodo);
+	const editTodo = useTodos((state) => state.editTodo);
+	const doneTodo = useTodos((state) => state.doneTodo);
 
 	const [input, setInput] = useState<string>(task.title);
 	const [edit, setEdit] = useState<boolean>(false);
 
 	const editTask = () => {
-		onEdit(task.id, input);
+		editTodo(task.id, input);
 		setEdit(!edit);
 	};
 
@@ -46,7 +43,7 @@ const TaskComponent = ({
 			}}
 		>
 			<WrapperBox>
-				<Checkbox checked={task.done} onChange={onDone} />
+				<Checkbox checked={task.done} onChange={() => doneTodo(task.id)} />
 
 				<Divider sx={{ height: 28, m: '4px' }} orientation="vertical" />
 
@@ -93,7 +90,7 @@ const TaskComponent = ({
 
 					<Divider sx={{ height: 28, p: '4px' }} orientation="vertical" />
 
-					<IconButton sx={{ m: 1 }} onClick={onDelete}>
+					<IconButton sx={{ m: 1 }} onClick={() => deleteTodo(task.id)}>
 						<DeleteIcon />
 					</IconButton>
 				</WrapperBox>

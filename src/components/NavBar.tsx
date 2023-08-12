@@ -24,4 +24,7 @@ const StyledBox = styled(Box)(({ theme }: { theme: Theme }) => ({
 	padding: '8px 80px',
 	backgroundColor: theme.palette.BackgroundColors.main,
 	boxShadow: `0px 2px ${theme.palette.border.main}`,
+	'@media (max-width: 890px)': {
+		padding: '8px 10px',
+	},
 }));
