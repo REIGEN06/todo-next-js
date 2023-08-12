@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { Task } from '../types/types';
-import { useTodos } from '../Store/store';
+import { useTodos } from '../store/store';
 
 interface TaskProps {
 	task: Task;
