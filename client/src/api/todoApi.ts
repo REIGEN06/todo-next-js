@@ -1,4 +1,6 @@
+import { Task } from '@/types/types';
 import axios from 'axios';
+
 export default async function fetcher<JSON = any>(
 	input: RequestInfo,
 	init?: RequestInit
@@ -6,6 +8,10 @@ export default async function fetcher<JSON = any>(
 	const res = await fetch(input, init);
 	return res.json();
 }
+
+export const getTodosFromDb = (): Promise<Task[]> => {
+	return axios.get('http://localhost:8080/api/tasks').then((res) => res.data);
+};
 
 export const addTodoDb = (title: string): Promise<number> => {
 	return axios
@@ -21,14 +27,16 @@ export const deleteTodoDb = (id: number): void => {
 	axios.delete(`http://localhost:8080/api/task/${id}`);
 };
 
-export const editTodoDb = (id: number, newTitle: string): void => {
-	axios.put(
-		`http://localhost:8080/api/task/${id}`,
-		JSON.stringify({ title: newTitle }),
-		{
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-			},
-		}
-	);
+export const updateTodoDb = ({ id, title, done }: Task): void => {
+	console.log(id, title, done);
+
+	// axios({
+	// 	method: 'put',
+	// 	url: `http://localhost:8080/api/task/${id}`,
+	// 	data: {
+	// 		id: id,
+	// 		title: title,
+	// 		done: done,
+	// 	},
+	// });
 };

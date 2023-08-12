@@ -1,25 +1,26 @@
-// @ts-nocheck
 import { create } from 'zustand';
 import { Task } from '../types/types';
-import { addTodoDb, deleteTodoDb, editTodoDb } from '@/api/todoApi';
-import axios from 'axios';
+import {
+	addTodoDb,
+	deleteTodoDb,
+	updateTodoDb,
+	getTodosFromDb,
+} from '@/api/todoApi';
 
 interface TodosState {
 	todos: Task[];
 	getTodosFromDbAndSet: () => void;
 	addTodo: (title: string) => void;
 	deleteTodo: (id: number) => void;
-	doneTodo: (id: number) => void;
-	editTodo: (id: number, newTitle: string) => void;
+	editTodo: (task: Task) => void;
+	doneTodo: (task: Task) => void;
 }
 
 export const useTodos = create<TodosState>((set) => ({
 	todos: [],
 
 	getTodosFromDbAndSet: async () => {
-		const tasks: Task[] = await axios
-			.get('http://localhost:8080/api/tasks')
-			.then((res) => res.data);
+		const tasks = await getTodosFromDb();
 
 		set({
 			todos: tasks,
@@ -44,22 +45,25 @@ export const useTodos = create<TodosState>((set) => ({
 		}));
 	},
 
-	editTodo: async (id, newTitle) => {
-		await editTodoDb(id, newTitle);
+	editTodo: async (task: Task) => {
+		await updateTodoDb(task);
 
 		set((state) => ({
 			todos: state.todos.map((todo) => {
-				todo.id === id && (todo.title = newTitle);
+				todo.id === task.id && (todo.title = task.title);
 				return todo;
 			}),
 		}));
 	},
 
-	doneTodo: (id) =>
+	doneTodo: async (task: Task) => {
+		await updateTodoDb(task);
+
 		set((state) => ({
 			todos: state.todos.map((todo) => {
-				todo.id === id && (todo.done = !todo.done);
+				todo.id === task.id && (todo.done = !todo.done);
 				return todo;
 			}),
-		})),
+		}));
+	},
 }));

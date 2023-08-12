@@ -30,8 +30,12 @@ const TaskComponent = ({ task }: TaskProps) => {
 	const [edit, setEdit] = useState<boolean>(false);
 
 	const editTask = () => {
-		editTodo(task.id, input);
+		editTodo({ id: task.id, title: input, done: task.done });
 		setEdit(!edit);
+	};
+
+	const doneTask = () => {
+		doneTodo({ id: task.id, title: task.title, done: !task.done });
 	};
 
 	return (
@@ -43,7 +47,7 @@ const TaskComponent = ({ task }: TaskProps) => {
 			}}
 		>
 			<WrapperBox>
-				<Checkbox checked={task.done} onChange={() => doneTodo(task.id)} />
+				<Checkbox checked={task.done || false} onChange={doneTask} />
 
 				<Divider sx={{ height: 28, m: '4px' }} orientation="vertical" />
 
