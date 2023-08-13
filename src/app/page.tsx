@@ -1,95 +1,114 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import {
+	Autocomplete,
+	Grid,
+	IconButton,
+	InputAdornment,
+	ListSubheader,
+	Stack,
+	TextField,
+	Theme,
+	styled,
+} from '@mui/material';
+import { useRef, useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import TaskComponent from '../components/TaskComponents';
+import { Task } from '../types/types';
+import { useTodos } from './store/store';
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const ToDoList = () => {
+	const [searchInput, setSearchInput] = useState<string>('');
+	const taskInputRef = useRef<HTMLInputElement>(null);
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+	const addTodo = useTodos((state) => state.addTodo);
+	const todos = useTodos((state) => state.todos);
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+	const addTask = () => {
+		if (!taskInputRef.current?.value) return;
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+		addTodo(taskInputRef.current.value);
+		taskInputRef.current.value = '';
+	};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
+	const filteredTasks = todos?.filter((task: Task) => {
+		return task.title?.toLowerCase().includes(searchInput.toLowerCase());
+	});
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+	return (
+		<StyledStack>
+			<ListSubheader sx={{ p: 1 }}>
+				<GridContainer container spacing={2}>
+					<Grid item xs={12} sm={7}>
+						<TextField
+							type="text"
+							label="Добавить таск"
+							variant="outlined"
+							fullWidth
+							autoFocus
+							inputRef={taskInputRef}
+							onKeyDown={(e) => e.key === 'Enter' && addTask()}
+							inputProps={{ maxLength: 100 }}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton sx={{ padding: '0px' }} onClick={addTask}>
+											<AddIcon />
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
+					</Grid>
+
+					<Grid item xs={12} sm={5}>
+						<Autocomplete
+							disablePortal
+							options={todos.map((task: Task) => task.title).reverse()}
+							onChange={(event, value) => setSearchInput(value || '')}
+							sx={{
+								marginBottom: 1,
+							}}
+							fullWidth
+							renderInput={(params) => (
+								<TextField
+									margin="normal"
+									{...params}
+									label="Поиск по списку"
+								/>
+							)}
+							renderOption={(props, option) => {
+								return (
+									<li {...props} key={props.id}>
+										{option}
+									</li>
+								);
+							}}
+						/>
+					</Grid>
+				</GridContainer>
+			</ListSubheader>
+
+			{filteredTasks?.reverse().map((task: Task) => {
+				return <TaskComponent key={task.id} task={task} />;
+			})}
+		</StyledStack>
+	);
+};
+
+export default ToDoList;
+
+const GridContainer = styled(Grid)({
+	display: 'flex',
+	alignItems: 'center',
+});
+
+const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
+	margin: '24px 80px',
+	padding: '8px',
+	border: `1px solid ${theme.palette.border.main}`,
+	borderRadius: '10px',
+	backgroundColor: `${theme.palette.backgroundColors.main}`,
+	'@media (max-width: 890px)': {
+		margin: '24px 10px',
+	},
+}));
