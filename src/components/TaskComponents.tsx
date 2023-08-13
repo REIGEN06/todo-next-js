@@ -64,14 +64,7 @@ const TaskComponent = ({ task }: TaskProps) => {
 						variant="standard"
 						multiline
 						fullWidth
-						sx={{ p: 1, input: { cursor: 'pointer' } }}
-						style={
-							task.done
-								? {
-										textDecoration: 'line-through',
-								  }
-								: { textDecoration: 'none' }
-						}
+						sx={{ p: 1, textDecoration: task.done ? 'line-through' : 'none' }}
 						InputProps={InputPropsReadOnly}
 						value={task.title}
 					/>
@@ -79,7 +72,7 @@ const TaskComponent = ({ task }: TaskProps) => {
 
 				<WrapperBox>
 					{edit ? (
-						<IconButton sx={{ m: 1 }} onClick={() => editTask()}>
+						<IconButton sx={{ m: 1 }} onClick={editTask}>
 							<CheckIcon />
 						</IconButton>
 					) : (
