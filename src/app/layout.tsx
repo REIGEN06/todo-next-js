@@ -36,6 +36,6 @@ export default function RootLayout({
 }
 
 const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
-	backgroundColor: theme.palette.BackgroundColors.dark,
+	backgroundColor: theme.palette.backgroundColors.dark,
 	height: typeof window !== undefined ? window.innerHeight : '100%',
 }));

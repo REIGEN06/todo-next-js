@@ -38,7 +38,7 @@ const TaskComponent = ({ task }: TaskProps) => {
 		<WrapperTask
 			sx={{
 				backgroundColor: task.done
-					? theme.palette.BackgroundColors.dark
+					? theme.palette.backgroundColors.dark
 					: 'none',
 			}}
 		>

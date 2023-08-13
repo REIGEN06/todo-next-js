@@ -3,12 +3,12 @@ import { createTheme, responsiveFontSizes } from '@mui/material';
 
 declare module '@mui/material/styles' {
 	interface Palette {
-		BackgroundColors: Palette['primary'];
+		backgroundColors: Palette['primary'];
 		border: Palette['primary'];
 	}
 
 	interface PaletteOptions {
-		BackgroundColors?: PaletteOptions['primary'];
+		backgroundColors?: PaletteOptions['primary'];
 		border?: PaletteOptions['primary'];
 	}
 }
@@ -26,7 +26,7 @@ let theme = createTheme({
 		border: {
 			main: '#dce1e6',
 		},
-		BackgroundColors: {
+		backgroundColors: {
 			main: '#ffffff',
 			dark: '#edeef0',
 		},

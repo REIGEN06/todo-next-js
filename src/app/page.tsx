@@ -107,7 +107,7 @@ const StyledStack = styled(Stack)(({ theme }: { theme: Theme }) => ({
 	padding: '8px',
 	border: `1px solid ${theme.palette.border.main}`,
 	borderRadius: '10px',
-	backgroundColor: `${theme.palette.BackgroundColors.main}`,
+	backgroundColor: `${theme.palette.backgroundColors.main}`,
 	'@media (max-width: 890px)': {
 		margin: '24px 10px',
 	},
