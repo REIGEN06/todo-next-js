@@ -2,10 +2,14 @@ const database = require('../models/index');
 import { Request, Response } from 'express';
 import { z } from 'zod';
 
-const taskSchema = z.object({
-	title: z.string().optional(),
+const taskSchemaBody = z.object({
 	id: z.number().optional(),
-	done: z.boolean().optional(),
+	title: z.string(),
+	done: z.boolean(),
+});
+
+const taskSchemaParams = z.object({
+	id: z.string(),
 });
 
 class ToDoController {
@@ -16,7 +20,7 @@ class ToDoController {
 	}
 
 	async createTask(req: Request, res: Response) {
-		const task = taskSchema.parse(req.body);
+		const task = taskSchemaBody.parse(req.body);
 
 		const newTask = await database.Todo.create({
 			title: task.title,
@@ -27,7 +31,7 @@ class ToDoController {
 	}
 
 	async deleteTask(req: Request, res: Response) {
-		const taskId = taskSchema.parse(req.params);
+		const taskId = taskSchemaParams.parse(req.params);
 
 		database.Todo.destroy({
 			where: {
@@ -37,7 +41,7 @@ class ToDoController {
 	}
 
 	async updateTask(req: Request, res: Response) {
-		const task = taskSchema.parse(req.body);
+		const task = taskSchemaBody.parse(req.body);
 
 		database.Todo.update(
 			{ title: task.title, done: task.done },

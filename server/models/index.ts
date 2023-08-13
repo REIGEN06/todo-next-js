@@ -1,12 +1,12 @@
 'use strict';
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const processed = require('process');
-const basename = path.basename(__filename);
-const env = processed.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 const config = require(__dirname + '/../config/config.json')[env];
+const basename = path.basename(__filename);
 
 const db: dbType = {
 	sequelize: '',
@@ -22,7 +22,7 @@ type dbType = {
 
 let sequelize;
 if (config.use_env_variable) {
-	sequelize = new Sequelize(processed.env[config.use_env_variable], config);
+	sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
 	sequelize = new Sequelize(
 		config.database,
