@@ -1,35 +1,38 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
+const { QueryInterface } = require('sequelize');
+const { DataType } = require('sequelize-typescript');
+
 module.exports = {
-	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Todos', {
+	async up(QueryInterface) {
+		await QueryInterface.createTable('Todos', {
 			id: {
-				type: Sequelize.INTEGER,
+				type: DataType.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
 			},
 
 			title: {
-				type: Sequelize.STRING,
+				type: DataType.STRING,
 			},
 
 			done: {
-				type: Sequelize.BOOLEAN,
+				type: DataType.BOOLEAN,
 			},
 
 			createdAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataType.DATE,
 			},
 
 			updatedAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataType.DATE,
 			},
 		});
 	},
 
-	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('Todos');
+	async down(QueryInterface) {
+		await QueryInterface.dropTable('Todos');
 	},
 };
