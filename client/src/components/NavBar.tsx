@@ -22,7 +22,7 @@ export default NavBar;
 const StyledBox = styled(Box)(({ theme }: { theme: Theme }) => ({
 	display: 'flex',
 	padding: '8px 80px',
-	backgroundColor: theme.palette.BackgroundColors.main,
+	backgroundColor: theme.palette.backgroundColors.main,
 	boxShadow: `0px 2px ${theme.palette.border.main}`,
 	'@media (max-width: 890px)': {
 		padding: '8px 10px',
