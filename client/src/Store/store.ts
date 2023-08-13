@@ -1,11 +1,9 @@
 import { create } from 'zustand';
 import { Task } from '../types/types';
-import {
-	addTodoDb,
-	deleteTodoDb,
-	updateTodoDb,
-	getTodosFromDb,
-} from '@/api/todoApi';
+import { getTodosFromDb } from '@/api/getTodosFromDb';
+import { addTodoDb } from '@/api/addTodoDb';
+import { deleteTodoDb } from '@/api/deleteTodoDb';
+import { updateTodoDb } from '@/api/updateTodoDb';
 
 interface TodosState {
 	todos: Task[];
@@ -57,8 +55,6 @@ export const useTodos = create<TodosState>((set) => ({
 	},
 
 	doneTodo: async (task: Task) => {
-		console.log(task);
-
 		await updateTodoDb(task);
 
 		set((state) => ({
