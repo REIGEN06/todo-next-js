@@ -3,7 +3,7 @@ import axios from 'axios';
 export const addTodoDb = (title: string): Promise<number> => {
 	return axios
 		.post(
-			'http://localhost:8080/api/task',
+			`http://${process.env.NEXT_PUBLIC_HOST}/api/task`,
 			JSON.stringify({ title: title, done: false }),
 			{
 				headers: {
