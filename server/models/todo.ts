@@ -1,28 +1,16 @@
-'use strict';
+import { Table, Column, Model, AllowNull } from 'sequelize-typescript';
 
-const { Model } = require('sequelize');
+@Table({
+	modelName: 'Todo',
+})
+export default class Todo extends Model {
+	@AllowNull(false)
+	@Column({ primaryKey: true })
+	id: number;
 
-module.exports = (sequelize, DataTypes) => {
-	class Todo extends Model {
-		/**
-		 * Helper method for defining associations.
-		 * This method is not a part of Sequelize lifecycle.
-		 * The `models/index` file will call this method automatically.
-		 */
-		static associate(models) {
-			// define association here
-		}
-	}
-	Todo.init(
-		{
-			id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-			title: DataTypes.STRING,
-			done: DataTypes.BOOLEAN,
-		},
-		{
-			sequelize,
-			modelName: 'Todo',
-		}
-	);
-	return Todo;
-};
+	@Column
+	title: string;
+
+	@Column
+	done: boolean;
+}
