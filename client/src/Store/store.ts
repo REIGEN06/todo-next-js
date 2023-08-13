@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { Task } from '../types/types';
-import { getTodosFromDb } from '@/api/getTodosFromDb';
-import { addTodoDb } from '@/api/addTodoDb';
-import { deleteTodoDb } from '@/api/deleteTodoDb';
-import { updateTodoDb } from '@/api/updateTodoDb';
+import { Task } from '@types';
+import { getTodosFromDb } from '@api/getTodosFromDb';
+import { addTodoDb } from '@api/addTodoDb';
+import { deleteTodoDb } from '@api/deleteTodoDb';
+import { updateTodoDb } from '@api/updateTodoDb';
 
 interface TodosState {
 	todos: Task[];

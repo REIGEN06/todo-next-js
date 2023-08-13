@@ -12,8 +12,8 @@ import {
 	useTheme,
 } from '@mui/material';
 import { useState } from 'react';
-import { Task } from '../types/types';
-import { useTodos } from '../store/store';
+import { Task } from '@types';
+import { useTodos } from '@store';
 
 interface TaskProps {
 	task: Task;
