@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import Todo from '../models/todo';
 import { z } from 'zod';
 
+const sequelize = require('../models/index');
+sequelize.addModels([Todo]);
+
 const taskSchemaBody = z.object({
 	id: z.number().optional(),
 	title: z.string(),
